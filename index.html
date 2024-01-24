@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 480px; /* Adjust this value to suit your design */
+            margin: auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* subtle shadow for a touch of depth */
+            border-radius: 8px; /* rounded corners */
+        }
+
+        h4 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #007aff; /* iOS blue */
+        }
+
+        div {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        input[type="date"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007aff;
+            color: white;
+            padding: 15px 20px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0051a8;
+        }
+
+        #add_error, #difference_error {
+            color: #ff3b30; /* iOS red */
+        }
+
+        #add_result, #difference_result {
+            color: #4cd964; /* iOS green */
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            // Set the top date field to today's date by default
+            document.getElementById('date_input').valueAsDate = new Date();
+        };
+
+        function addDaysToDate() {
+            const dateInput = document.getElementById('date_input').value;
+            const daysInputValue = document.getElementById('days_input').value;
+
+            if (!dateInput) {
+                document.getElementById('add_error').innerText = "Please select a date.";
+                document.getElementById('add_result').innerText = "";
+                return;
+            }
+            if (!daysInputValue) {
+                document.getElementById('add_error').innerText = "Please enter the number of days to add.";
+                document.getElementById('add_result').innerText = "";
+                return;
+            }
+
+            const daysInput = parseInt(daysInputValue, 10);
+            const date = new Date(dateInput);
+            
+            // Add days
+            date.setDate(date.getDate() + daysInput);
+            
+            // Display the result
+            document.getElementById('add_result').innerText = "Resulting Date: " + date.toLocaleDateString();
+            document.getElementById('add_error').innerText = "";
+        }
+
+        function calculateDateDifference() {
+            const dateInput1 = document.getElementById('date_input').value;
+            const dateInput2 = document.getElementById('second_date_input').value;
+
+            if (!dateInput1 || !dateInput2) {
+                document.getElementById('difference_error').innerText = "Please select both dates to calculate the difference.";
+                document.getElementById('difference_result').innerText = "";
+                return;
+            }
+
+            const date1 = new Date(dateInput1);
+            const date2 = new Date(dateInput2);
+            
+            // Calculate the difference in milliseconds
+            const differenceInTime = date2.getTime() - date1.getTime();
+            
+            // Convert time difference to days
+            const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+            // Display the result
+            document.getElementById('difference_result').innerText = "Difference in Days: " + Math.abs(differenceInDays);
+            document.getElementById('difference_error').innerText = "";
+        }
+
+        function clearFields() {
+            // Set the top date field to today's date
+            document.getElementById('date_input').valueAsDate = new Date();
+            // Clear the days input field
+            document.getElementById('days_input').value = '';
+            // Reset the second date field to no date selected
+            document.getElementById('second_date_input').value = '';
+            // Clear any displayed results or error messages
+            document.getElementById('add_result').innerText = '';
+            document.getElementById('add_error').innerText = '';
+            document.getElementById('difference_result').innerText = '';
+            document.getElementById('difference_error').innerText = '';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h4>Add Days to Date</h4>
+        <div>
+            <label for="date_input">Date Input:</label>
+            <input type="date" id="date_input" name="date_input">
+        </div>
+        <div>
+            <label for="days_input">Days to Add:</label>
+            <input type="number" id="days_input" name="days_input">
+        </div>
+        <button type="button" onclick="addDaysToDate()">Add Days</button>
+        <div id="add_error"></div>
+        <div id="add_result"></div>
+
+        <h4>Calculate Difference Between Dates</h4>
+        <div>
+            <label for="second_date_input">Second Date Input:</label>
+            <input type="date" id="second_date_input" name="second_date_input">
+        </div>
+        <button type="button" onclick="calculateDateDifference()">Calculate Difference</button>
+        <div id="difference_error"></div>
+        <div id="difference_result"></div>
+
+        <button type="button" onclick="clearFields()">Clear</button>
+    </div>
+</body>
+</html>
