@@ -137,6 +137,12 @@
             const date1 = new Date(dateInput1);
             const date2 = new Date(dateInput2);
 
+            if (date2 < date1) {
+                document.getElementById('difference_error').innerText = "The second date cannot be before the first date.";
+                document.getElementById('difference_result').innerText = "";
+                return;
+            }
+
             // Calculate the difference in milliseconds
             const differenceInTime = date2.getTime() - date1.getTime();
 
@@ -150,6 +156,7 @@
             document.getElementById('difference_result').innerText = "Difference in Days (includes first day): " + Math.abs(inclusiveDifferenceInDays);
             document.getElementById('difference_error').innerText = "";
         }
+
 
 
         function clearFields() {
