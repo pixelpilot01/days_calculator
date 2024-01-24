@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -12,18 +13,22 @@
         }
 
         .container {
-            max-width: 480px; /* Adjust this value to suit your design */
+            max-width: 480px;
+            /* Adjust this value to suit your design */
             margin: auto;
             background-color: white;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* subtle shadow for a touch of depth */
-            border-radius: 8px; /* rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /* subtle shadow for a touch of depth */
+            border-radius: 8px;
+            /* rounded corners */
         }
 
         h4 {
             margin-top: 20px;
             margin-bottom: 10px;
-            color: #007aff; /* iOS blue */
+            color: #007aff;
+            /* iOS blue */
         }
 
         div {
@@ -63,17 +68,21 @@
             background-color: #0051a8;
         }
 
-        #add_error, #difference_error {
-            color: #ff3b30; /* iOS red */
+        #add_error,
+        #difference_error {
+            color: #ff3b30;
+            /* iOS red */
         }
 
-        #add_result, #difference_result {
-            color: #4cd964; /* iOS green */
+        #add_result,
+        #difference_result {
+            color: #4cd964;
+            /* iOS green */
             margin-top: 10px;
         }
     </style>
     <script>
-        window.onload = function() {
+        window.onload = function () {
             // Set the top date field to today's date by default
             document.getElementById('date_input').valueAsDate = new Date();
         };
@@ -95,10 +104,10 @@
 
             const daysInput = parseInt(daysInputValue, 10);
             const date = new Date(dateInput);
-            
+
             // Add days
             date.setDate(date.getDate() + daysInput);
-            
+
             // Display the result
             document.getElementById('add_result').innerText = "Resulting Date: " + date.toLocaleDateString();
             document.getElementById('add_error').innerText = "";
@@ -116,17 +125,21 @@
 
             const date1 = new Date(dateInput1);
             const date2 = new Date(dateInput2);
-            
+
             // Calculate the difference in milliseconds
             const differenceInTime = date2.getTime() - date1.getTime();
-            
+
             // Convert time difference to days
             const differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
+            // Adding 1 to make the count inclusive
+            const inclusiveDifferenceInDays = differenceInDays + 1;
+
             // Display the result
-            document.getElementById('difference_result').innerText = "Difference in Days: " + Math.abs(differenceInDays);
+            document.getElementById('difference_result').innerText = "Difference in Days (inclusive): " + Math.abs(inclusiveDifferenceInDays);
             document.getElementById('difference_error').innerText = "";
         }
+
 
         function clearFields() {
             // Set the top date field to today's date
@@ -143,9 +156,10 @@
         }
     </script>
 </head>
+
 <body>
     <div class="container">
-        <h4>Add Days to Date</h4>
+        <h4>Add Days to Date (includes first day)</h4>
         <div>
             <label for="date_input">Date Input:</label>
             <input type="date" id="date_input" name="date_input">
@@ -170,4 +184,5 @@
         <button type="button" onclick="clearFields()">Clear</button>
     </div>
 </body>
+
 </html>
