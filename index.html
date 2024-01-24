@@ -103,6 +103,15 @@
             }
 
             const daysInput = parseInt(daysInputValue, 10);
+            if (daysInput === 1) {
+                document.getElementById('add_error').innerText = "This calculates the first day as 'day 1', please enter 2 or more days to calculate.";
+                document.getElementById('add_result').innerText = "";
+                return;
+            } else if (daysInput < 1) {
+                document.getElementById('add_error').innerText = "Invalid input. Please enter a positive integer, 1 or greater.";
+                document.getElementById('add_result').innerText = "";
+                return;
+            }
             const date = new Date(dateInput);
 
             // Add days
@@ -112,6 +121,8 @@
             document.getElementById('add_result').innerText = "Resulting Date: " + date.toLocaleDateString();
             document.getElementById('add_error').innerText = "";
         }
+
+
 
         function calculateDateDifference() {
             const dateInput1 = document.getElementById('date_input').value;
@@ -136,7 +147,7 @@
             const inclusiveDifferenceInDays = differenceInDays + 1;
 
             // Display the result
-            document.getElementById('difference_result').innerText = "Difference in Days (inclusive): " + Math.abs(inclusiveDifferenceInDays);
+            document.getElementById('difference_result').innerText = "Difference in Days (includes first day): " + Math.abs(inclusiveDifferenceInDays);
             document.getElementById('difference_error').innerText = "";
         }
 
