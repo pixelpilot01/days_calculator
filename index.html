@@ -81,103 +81,111 @@
             margin-top: 10px;
         }
     </style>
-<script>
-    window.onload = function () {
-        // Set the top date field to today's date by default
-        document.getElementById('date_input').valueAsDate = new Date();
-    };
+    <script>
+        window.onload = function () {
+            // Set the top date field to today's date by default
+            setTodayDate('date_input');
+        };
 
-    function addDaysToDate() {
-        const dateInput = document.getElementById('date_input').value;
-        const daysInputValue = document.getElementById('days_input').value;
-
-        if (!dateInput) {
-            document.getElementById('add_error').innerText = "Please select a date.";
-            document.getElementById('add_result').innerText = "";
-            return;
-        }
-        if (!daysInputValue) {
-            document.getElementById('add_error').innerText = "Please enter the number of days to add.";
-            document.getElementById('add_result').innerText = "";
-            return;
+        function setTodayDate(elementId) {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = ('0' + (today.getMonth() + 1)).slice(-2); // Months are zero-based, add 1 to get the correct month
+            const day = ('0' + today.getDate()).slice(-2); // Pad single digit dates with a leading zero
+            document.getElementById(elementId).value = `${year}-${month}-${day}`; // Set the value in yyyy-mm-dd format
         }
 
-        const daysInput = parseInt(daysInputValue, 10);
-        if (daysInput === 1) {
-            document.getElementById('add_error').innerText = "This calculates the first day as 'day 1', please enter 2 or more days to calculate.";
-            document.getElementById('add_result').innerText = "";
-            return;
-        } else if (daysInput < 1) {
-            document.getElementById('add_error').innerText = "Invalid input. Please enter a positive integer, 1 or greater.";
-            document.getElementById('add_result').innerText = "";
-            return;
-        }
-        const date = new Date(dateInput);
+        function addDaysToDate() {
+            const dateInput = document.getElementById('date_input').value;
+            const daysInputValue = document.getElementById('days_input').value;
 
-        // Add days
-        date.setDate(date.getDate() + daysInput);
+            if (!dateInput) {
+                document.getElementById('add_error').innerText = "Please select a date.";
+                document.getElementById('add_result').innerText = "";
+                return;
+            }
+            if (!daysInputValue) {
+                document.getElementById('add_error').innerText = "Please enter the number of days to add.";
+                document.getElementById('add_result').innerText = "";
+                return;
+            }
 
-        // Format the date to include the day of the week
-        const options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' };
-        const resultingDate = date.toLocaleDateString(undefined, options);
+            const daysInput = parseInt(daysInputValue, 10);
+            if (daysInput === 1) {
+                document.getElementById('add_error').innerText = "This calculates the first day as 'day 1', please enter 2 or more days to calculate.";
+                document.getElementById('add_result').innerText = "";
+                return;
+            } else if (daysInput < 1) {
+                document.getElementById('add_error').innerText = "Invalid input. Please enter a positive integer, 1 or greater.";
+                document.getElementById('add_result').innerText = "";
+                return;
+            }
+            const date = new Date(dateInput);
 
-        // Display the result
-        document.getElementById('add_result').innerHTML = "Resulting Date: <strong>" + resultingDate + "</strong>";
-        document.getElementById('add_error').innerText = "";
-    }
+            // Add days
+            date.setDate(date.getDate() + daysInput);
 
+            // Format the date to include the day of the week
+            const options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' };
+            const resultingDate = date.toLocaleDateString(undefined, options);
 
-
-    function calculateDateDifference() {
-        const dateInput1 = document.getElementById('date_input').value;
-        const dateInput2 = document.getElementById('second_date_input').value;
-
-        if (!dateInput1 || !dateInput2) {
-            document.getElementById('difference_error').innerText = "Please select both dates to calculate the difference.";
-            document.getElementById('difference_result').innerText = "";
-            return;
-        }
-
-        const date1 = new Date(dateInput1);
-        const date2 = new Date(dateInput2);
-
-        if (date2 < date1) {
-            document.getElementById('difference_error').innerText = "The second date cannot be before the first date.";
-            document.getElementById('difference_result').innerText = "";
-            return;
+            // Display the result
+            document.getElementById('add_result').innerHTML = "Resulting Date: <strong>" + resultingDate + "</strong>";
+            document.getElementById('add_error').innerText = "";
         }
 
-        // Calculate the difference in milliseconds
-        const differenceInTime = date2.getTime() - date1.getTime();
-
-        // Convert time difference to days
-        const differenceInDays = differenceInTime / (1000 * 3600 * 24);
-
-        // Adding 1 to make the count inclusive
-        const inclusiveDifferenceInDays = differenceInDays + 1;
-
-        // Display the result
-        // Display the result
-        document.getElementById('difference_result').innerHTML = "Difference in Days (includes first day): <strong>" + Math.abs(inclusiveDifferenceInDays) + "</strong>";
-        document.getElementById('difference_error').innerText = "";
-    }
 
 
+        function calculateDateDifference() {
+            const dateInput1 = document.getElementById('date_input').value;
+            const dateInput2 = document.getElementById('second_date_input').value;
 
-    function clearFields() {
-        // Set the top date field to today's date
-        document.getElementById('date_input').valueAsDate = new Date();
-        // Clear the days input field
-        document.getElementById('days_input').value = '';
-        // Reset the second date field to no date selected
-        document.getElementById('second_date_input').value = '';
-        // Clear any displayed results or error messages
-        document.getElementById('add_result').innerText = '';
-        document.getElementById('add_error').innerText = '';
-        document.getElementById('difference_result').innerText = '';
-        document.getElementById('difference_error').innerText = '';
-    }
-</script>
+            if (!dateInput1 || !dateInput2) {
+                document.getElementById('difference_error').innerText = "Please select both dates to calculate the difference.";
+                document.getElementById('difference_result').innerText = "";
+                return;
+            }
+
+            const date1 = new Date(dateInput1);
+            const date2 = new Date(dateInput2);
+
+            if (date2 < date1) {
+                document.getElementById('difference_error').innerText = "The second date cannot be before the first date.";
+                document.getElementById('difference_result').innerText = "";
+                return;
+            }
+
+            // Calculate the difference in milliseconds
+            const differenceInTime = date2.getTime() - date1.getTime();
+
+            // Convert time difference to days
+            const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+            // Adding 1 to make the count inclusive
+            const inclusiveDifferenceInDays = differenceInDays + 1;
+
+            // Display the result
+            // Display the result
+            document.getElementById('difference_result').innerHTML = "Difference in Days (includes first day): <strong>" + Math.abs(inclusiveDifferenceInDays) + "</strong>";
+            document.getElementById('difference_error').innerText = "";
+        }
+
+
+
+        function clearFields() {
+            // Set the top date field to today's date
+            setTodayDate('date_input');
+            // Clear the days input field
+            document.getElementById('days_input').value = '';
+            // Reset the second date field to no date selected
+            document.getElementById('second_date_input').value = '';
+            // Clear any displayed results or error messages
+            document.getElementById('add_result').innerText = '';
+            document.getElementById('add_error').innerText = '';
+            document.getElementById('difference_result').innerText = '';
+            document.getElementById('difference_error').innerText = '';
+        }
+    </script>
 
 </head>
 
